@@ -1,0 +1,122 @@
+import { Component, OnInit } from '@angular/core';
+
+import { Game } from './game';
+import { GameService } from './game.service';
+import { BggService } from './bgg.service';
+
+@Component({
+	selector: 'my-app',
+	providers: [GameService, BggService],
+	template: `
+	  <h1>{{title}}</h1>
+	  <div>
+	    <p>New game:</p>
+	    <input type="text" [(ngModel)]="gameName" placeholder="Name" />
+	    <input type="text" [(ngModel)]="gameRating" placeholder="Rating" />
+	    <input type="text" [(ngModel)]="conceptScore" placeholder="Concept" />
+	    <input type="text" [(ngModel)]="artScore" placeholder="Art" />
+	    <input type="text" [(ngModel)]="interest" placeholder="Interest" />
+	    <input type="text" [(ngModel)]="partnerInterest" placeholder="Partner Interest" />
+	    <input type="text" [(ngModel)]="complexity" placeholder="BGG Complexity" />	    	    
+	    <button (click)="addGame()">Add Game</button>
+	  </div>
+	  <h2>Game List</h2>
+	  <ul class="games">
+	    <li *ngFor="let game of games" (click)="onSelect(game)" [class.selected]="game === selectedGame">
+	      <span class="badge">{{game.id}}</span> {{game.name}}
+	      <span class="rating">{{game.unweightedValue}}</span>
+	    </li>
+	  </ul>
+          <my-game-detail [game]="selectedGame"></my-game-detail>
+	`,
+	styles: [`
+  .selected {
+    background-color: #CFD8DC !important;
+    color: white;
+  }
+  .games {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 15em;
+  }
+  .games li {
+    cursor: pointer;
+    position: relative;
+    left: 0;
+    background-color: #EEE;
+    margin: .5em;
+    padding: .3em 0;
+    height: 1.6em;
+    border-radius: 4px;
+  }
+  .games li.selected:hover {
+    background-color: #BBD8DC !important;
+    color: white;
+  }
+  .games li:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    left: .1em;
+  }
+  .games .text {
+    position: relative;
+    top: -3px;
+  }
+  .games .badge {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color: #607D8B;
+    line-height: 1em;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    height: 1.8em;
+    margin-right: .8em;
+    border-radius: 4px 0 0 4px;
+  }
+`]
+})
+
+export class AppComponent implements OnInit {
+  constructor(private gameService: GameService, private bggService: BggService) { }
+  title = 'Board Game Rater';
+  games: Game[];
+  selectedGame: Game;
+  gameName: string;
+  gameRating: number;
+  conceptScore: number;
+  artScore: number;
+  interest: number;
+  partnerInterest: number;
+  complexity: number;
+
+  ngOnInit(): void {
+    this.getGames();
+  }
+
+  onSelect(game: Game): void {
+    this.selectedGame = game;
+    console.log('The selected game is', this.selectedGame);
+  }
+
+  getGames(): void {
+    this.gameService.getGames().then(games => this.games = games);
+  }
+
+  addGame(): void {
+    let newGame = new Game(this.bggService, this.games.length + 1, this.gameName, this.gameRating, this.conceptScore, this.artScore, this.interest, this.partnerInterest, this.complexity);
+
+    newGame.finalizeGame().then((finalizedGame)=> {
+      console.log("Unweighted: " + newGame.calculateUnweightedScore());
+      console.log("Weighted: " + newGame.calculateWeightedScore());
+      console.log("ratign:" + newGame.bggGeekRating);    
+      this.games = this.gameService.addGame(finalizedGame)
+    });
+/*    this.games = this.gameService.addGame(newGame);*/
+
+  }
+	
+}
