@@ -4,6 +4,8 @@ import { Game } from './game';
 import { GameService } from './game.service';
 import { BggService } from './bgg.service';
 
+declare var cloudmine: any;
+
 @Component({
 	selector: 'my-app',
 	providers: [GameService, BggService],
@@ -94,9 +96,12 @@ export class AppComponent implements OnInit {
   partnerInterest: number;
   complexity: number;
   price: number;
+  webService: any;
 
   ngOnInit(): void {
     this.getGames();
+    let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8716', apikey: 'b776889b290a4e2ca85b97ba7c070a56'})
+    console.log("CloudMine?", webService);
   }
 
   onSelect(game: Game): void {

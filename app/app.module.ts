@@ -6,6 +6,8 @@ import { HttpModule }		from '@angular/http';
 import { AppComponent } 	from './app.component';
 import { GameDetailComponent }  from './game-detail.component';
 
+declare var WebService: any;
+
 @NgModule({
 	imports: [ BrowserModule, FormsModule, HttpModule ],
 	declarations: [ AppComponent, GameDetailComponent ],
