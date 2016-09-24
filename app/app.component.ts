@@ -5,6 +5,7 @@ import { GameService } from './game.service';
 import { BggService } from './bgg.service';
 
 declare var cloudmine: any;
+let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8716', apikey: 'b776889b290a4e2ca85b97ba7c070a56'})
 
 @Component({
 	selector: 'my-app',
@@ -26,7 +27,8 @@ declare var cloudmine: any;
 	  <h2>Game List</h2>
 	  <ul class="games">
 	    <li *ngFor="let game of games" (click)="onSelect(game)" [class.selected]="game === selectedGame">
-	      <span class="badge">{{game.id}}</span> {{game.name}}
+	      <span class="badge">{{game.id}}</span>
+	      <span>{{game.name}}</span>
 	      <span class="rating">{{game.unweightedValue}}</span>
 	    </li>
 	  </ul>
@@ -100,7 +102,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGames();
-    let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8716', apikey: 'b776889b290a4e2ca85b97ba7c070a56'})
     console.log("CloudMine?", webService);
   }
 
@@ -110,7 +111,10 @@ export class AppComponent implements OnInit {
   }
 
   getGames(): void {
-    this.gameService.getGames().then(games => this.games = games);
+    this.gameService.getGames().then( (games)=> {
+      console.log("FETCHED GAMES:", games);
+      this.games = games
+    });
   }
 
   addGame(): void {
@@ -121,6 +125,7 @@ export class AppComponent implements OnInit {
       console.log("Weighted: " + newGame.calculateWeightedScore());
       console.log("ratign:" + newGame.bggGeekRating);    
       this.games = this.gameService.addGame(finalizedGame)
+      webService.update(finalizedGame.id, finalizedGame.getSafeJSON());
     });
     
     this.clearInputs();

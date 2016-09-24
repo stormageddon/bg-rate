@@ -111,4 +111,37 @@ export class Game {
     return this.weightedValue;
   }
 
+  getSafeJSON(): any {
+    let safeObj = {
+      name: this.name,
+      price: this.price,
+      rawCost: this.rawCost,
+      unweightedValue: this.unweightedValue,
+      weightedValue: this.weightedValue,
+      costIndependentWeightedValue: this.costIndependentWeightedValue,
+      costDependentWeightedValue: this.costDependentWeightedValue,
+      onePlayerCostIndependent: this.onePlayerCostIndependent,
+      onePlayerCostDependent: this.onePlayerCostDependent,
+      bggGeekRating: this.bggGeekRating,
+      bggAverageRating: this.bggAverageRating,
+      minPlayers: this.minPlayers,
+      maxPlayers: this.maxPlayers,
+      hours: this.hours,
+      concept: this.concept,
+      art: this.art,
+      interest: this.interest,
+      partnerInterest: this.partnerInterest,
+      complexity: this.complexity,
+      CInv: this.CInv,
+      CRaw: this.CRaw,
+      PRtg: this.PRtg,
+      PInv: this.PInv,
+      description: this.description,
+      gameID: this.gameID,
+      thumbnail: this.thumbnail,
+      id: this.id
+    }
+    return safeObj;
+  }
+
 }
