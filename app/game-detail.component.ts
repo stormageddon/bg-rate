@@ -7,6 +7,7 @@ import { Game } from './game';
   	    <p> My Game Detail </p>
   	    <div *ngIf="game">
   	      <h2> {{game.name}} details</h2>
+	      <img src="{{game.thumbnail}}" width="50" height="50" alt="{{game.name}} thumbnail"/>
 	      <p> Weighted value: {{game.weightedValue}} </p>
 	      <p> Unweighted valud: {{game.unweightedValue}} </p>
 	      <p> BGG Geek Rating: {{game.bggGeekRating}} </p>

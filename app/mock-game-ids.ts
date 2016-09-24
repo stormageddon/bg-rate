@@ -1,0 +1,1 @@
+export const GAME_IDS = {"cv": 143986, "sherlock holmes consulting detective": 2511 }

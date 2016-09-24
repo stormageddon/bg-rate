@@ -56,29 +56,36 @@ export class Game {
   PRtg: number;
   PInv: number;
   description: string;
+  gameID: number;
+  thumbnail: string;
 
   /**
    * Fetch game data from external sources
    */
   finalizeGame(): Promise<Game> {
     let self = this;
-    return new Promise( function(resolve, reject) {
 
-      self.bggService.getBoardGame(self.name).then( (game) => {
-        console.log("BGG Item:", game);      						    
-        self.bggGeekRating = +game.bggRating;
-        self.bggAverageRating = +game.averageRating;
-	self.description = game.description;
+    return self.bggService.getGameIDFromName(self.name).then( (gameID) => {
+      self.gameID = gameID;
+      return new Promise( function(resolve, reject) {
 
-        console.log("PInv: ", self.PInv);
-        console.log("CInv: ", self.CInv);
+        self.bggService.getBoardGame(self.gameID).then( (game) => {
+          console.log("BGG Item:", game);      						    
+          self.bggGeekRating = +game.bggRating;
+          self.bggAverageRating = +game.averageRating;
+	  self.description = game.description;
+	  self.thumbnail = game.thumbnail;
 
-        console.log("bggGeekRating", self.bggGeekRating);
-        console.log("avgGeekRating", self.bggAverageRating);
-        console.log("description", game.description);
+          console.log("PInv: ", self.PInv);
+          console.log("CInv: ", self.CInv);
 
-        resolve(self);
-      }).catch( err => console.log("err:", err) );
+          console.log("bggGeekRating", self.bggGeekRating);
+          console.log("avgGeekRating", self.bggAverageRating);
+          console.log("description", game.description);
+
+          resolve(self);
+        }).catch( err => console.log("err:", err) );
+      });
     });
     
   }

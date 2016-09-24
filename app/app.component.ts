@@ -118,6 +118,15 @@ export class AppComponent implements OnInit {
       this.games = this.gameService.addGame(finalizedGame)
     });
 
+    this.gameName = null;
+    this.gameRating = null;
+    this.conceptScore = null;
+    this.artScore = null;
+    this.interest = null;
+    this.partnerInterest = null;
+    this.complexity = null;
+    this.price = null;
+
   }
 	
 }

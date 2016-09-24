@@ -11,5 +11,6 @@ export class BggItem {
     description: string;
     bggRating: number;
     averageRating: number;
+    thumbnail: string;
 }
   
