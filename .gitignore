@@ -57,3 +57,4 @@ internal/
 .idea
 npm-debug.log
 typings/*
+app/**/*.js
