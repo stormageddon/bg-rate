@@ -45,8 +45,9 @@ export class BggService {
 	     console.log("Response:", response.json());
 	     console.log("Response:", response.json().body);
 	     let body = response.json();
-	     let item = new BggItem(body.gameId, body.name, body.description, body.bggRating, body.averageRating);
-	     item.thumbnail = body.thumbnail;	       
+	     let item = new BggItem(body.gameId, body.name, body.description, body.bggRating, body.averageRating, body.minPlayers, body.maxPlayers, body.playTime);
+	     item.thumbnail = body.thumbnail;
+	     
 	     return Promise.resolve(item);
 	   })
 	   .catch( err => console.log("Error", err) );

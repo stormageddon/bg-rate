@@ -75,6 +75,11 @@ export class Game {
           self.bggAverageRating = +game.averageRating;
 	  self.description = game.description;
 	  self.thumbnail = game.thumbnail;
+	  self.minPlayers = game.minPlayers;
+	  self.maxPlayers = game.maxPlayers;
+	  let totalHours = Math.floor(game.playTime / 60);
+	  let totalMinutes = game.playTime % 60;
+	  self.hours = parseInt(+totalHours + '.' + +totalMinutes);
 
           console.log("PInv: ", self.PInv);
           console.log("CInv: ", self.CInv);

@@ -12,7 +12,7 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
 	providers: [GameService, BggService],
 	template: `
 	  <h1>{{title}}</h1>
-	  <div>
+	  <div class="new-game-form-container">
 	    <p>New game:</p>
 	    <input type="text" [(ngModel)]="gameName" placeholder="Name" />
 	    <input type="text" [(ngModel)]="gameRating" placeholder="Rating" />
@@ -24,17 +24,25 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
     	    <input type="text" [(ngModel)]="price" placeholder="Price ($USD)" />
 	    <button (click)="addGame()">Add Game</button>
 	  </div>
-	  <h2>Game List</h2>
-	  <ul class="games">
-	    <li *ngFor="let game of games" (click)="onSelect(game)" [class.selected]="game === selectedGame">
-	      <span class="badge">{{game.id}}</span>
-	      <span>{{game.name}}</span>
-	      <span class="rating">{{game.weightedValue}}</span>
-	    </li>
-	  </ul>
-          <my-game-detail [game]="selectedGame"></my-game-detail>
+	  <div class='float-left'>
+  	    <h2>Game List</h2>
+	    <ul class="games">
+	      <li *ngFor="let game of games" (click)="onSelect(game)" [class.selected]="game === selectedGame">
+	        <span class="badge">{{game.id}}</span>
+	        <span>{{game.name}}</span>
+	        <span class="rating">{{game.weightedValue}}</span>
+	      </li>
+	    </ul>
+	  </div>
+	  <div class="float-right">
+            <my-game-detail [game]="selectedGame"></my-game-detail>
+	  </div>
 	`,
 	styles: [`
+  .new-game-form-container {
+    margin: 8px;
+    text-align: center;
+  }
   .selected {
     background-color: #CFD8DC !important;
     color: white;
@@ -82,6 +90,19 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
     margin-right: .8em;
     border-radius: 4px 0 0 4px;
   }
+  .float-left {
+    display: inline-block;
+    float: left;
+  }
+  .float-right {
+    background: #CFD8DC;
+    margin-left: -10px;
+    padding: 16px;
+    display: inline-block;
+    width: inherit;
+    position: absolute;
+    float: right;
+  }
 `]
 })
 
@@ -113,7 +134,8 @@ export class AppComponent implements OnInit {
   getGames(): void {
     this.gameService.getGames().then( (games)=> {
       console.log("FETCHED GAMES:", games);
-      this.games = games
+      this.games = games;
+      this.onSelect(this.games[0]);
     });
   }
 
