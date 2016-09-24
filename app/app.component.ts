@@ -28,7 +28,7 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
   	    <h2>Game List</h2>
 	    <ul class="games">
 	      <li *ngFor="let game of games" (click)="onSelect(game)" [class.selected]="game === selectedGame">
-	        <span class="badge">{{game.id}}</span>
+	        <span class="badge">{{getBadgeValue(game)}}</span>
 	        <span>{{game.name}}</span>
 	        <span class="rating">{{game.weightedValue}}</span>
 	      </li>
@@ -120,6 +120,7 @@ export class AppComponent implements OnInit {
   complexity: number;
   price: number;
   webService: any;
+  sortParameter: string = 'weightedValue';
 
   ngOnInit(): void {
     this.getGames();
@@ -163,5 +164,9 @@ export class AppComponent implements OnInit {
     this.complexity = null;
     this.price = null;
   }
-	
+
+  getBadgeValue(game): string {
+    return game[this.sortParameter];		   
+  }
+
 }
