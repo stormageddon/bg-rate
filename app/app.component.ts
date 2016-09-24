@@ -117,7 +117,11 @@ export class AppComponent implements OnInit {
       console.log("ratign:" + newGame.bggGeekRating);    
       this.games = this.gameService.addGame(finalizedGame)
     });
+    
+    this.clearInputs();
+  }
 
+  clearInputs(): void {
     this.gameName = null;
     this.gameRating = null;
     this.conceptScore = null;
@@ -126,7 +130,6 @@ export class AppComponent implements OnInit {
     this.partnerInterest = null;
     this.complexity = null;
     this.price = null;
-
   }
 	
 }
