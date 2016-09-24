@@ -24,6 +24,7 @@ export class GameService {
 	  console.log("value:", self.gameList);	  
 	  self.gameList.push(response[key])
         })
+	self.gameList.sort(function(a,b) { return (a.weightedValue < b.weightedValue) ? 1 : ((b.weightedValue < a.weightedValue) ? -1 : 0); });
         resolve(self.gameList);
       }).on('error', function(err) {
         reject(err)

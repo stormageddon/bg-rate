@@ -19,7 +19,7 @@ export class BggService {
 
   /** Not currently operational due to CORS issue **/
   getGameIDFromName(gameName): Promise<number> {
-    let gameId = +GAME_IDS[gameName];
+    let gameId = +GAME_IDS[gameName.toLowerCase()];
     console.log("Game IDS:", GAME_IDS);
     console.log("Game id:", gameId);
     return Promise.resolve(gameId);

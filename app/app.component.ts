@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe } from '@angular/core';
 
 import { Game } from './game';
 import { GameService } from './game.service';
@@ -29,7 +29,7 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
 	    <li *ngFor="let game of games" (click)="onSelect(game)" [class.selected]="game === selectedGame">
 	      <span class="badge">{{game.id}}</span>
 	      <span>{{game.name}}</span>
-	      <span class="rating">{{game.unweightedValue}}</span>
+	      <span class="rating">{{game.weightedValue}}</span>
 	    </li>
 	  </ul>
           <my-game-detail [game]="selectedGame"></my-game-detail>
@@ -43,7 +43,7 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
     margin: 0 0 2em 0;
     list-style-type: none;
     padding: 0;
-    width: 15em;
+    width: 30em;
   }
   .games li {
     cursor: pointer;
