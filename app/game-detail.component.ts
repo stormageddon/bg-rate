@@ -7,7 +7,12 @@ import { Game } from './game';
   	    <p> My Game Detail </p>
   	    <div *ngIf="game">
   	      <h2> {{game.name}} details</h2>
-	      <p> Rating: {{game.rating}} </p>
+	      <p> Weighted value: {{game.weightedValue}} </p>
+	      <p> Unweighted valud: {{game.unweightedValue}} </p>
+	      <p> BGG Geek Rating: {{game.bggGeekRating}} </p>
+	      <p> BGG Average Rating: {{game.bggAverageRating}} </p>
+	      <h3> Description </h3>
+	      <p [innerHTML]="game.description"></p>
 	    </div>
 	  `
 })

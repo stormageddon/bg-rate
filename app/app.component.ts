@@ -17,7 +17,8 @@ import { BggService } from './bgg.service';
 	    <input type="text" [(ngModel)]="artScore" placeholder="Art" />
 	    <input type="text" [(ngModel)]="interest" placeholder="Interest" />
 	    <input type="text" [(ngModel)]="partnerInterest" placeholder="Partner Interest" />
-	    <input type="text" [(ngModel)]="complexity" placeholder="BGG Complexity" />	    	    
+	    <input type="text" [(ngModel)]="complexity" placeholder="BGG Complexity" />
+    	    <input type="text" [(ngModel)]="price" placeholder="Price ($USD)" />
 	    <button (click)="addGame()">Add Game</button>
 	  </div>
 	  <h2>Game List</h2>
@@ -92,6 +93,7 @@ export class AppComponent implements OnInit {
   interest: number;
   partnerInterest: number;
   complexity: number;
+  price: number;
 
   ngOnInit(): void {
     this.getGames();
@@ -107,7 +109,7 @@ export class AppComponent implements OnInit {
   }
 
   addGame(): void {
-    let newGame = new Game(this.bggService, this.games.length + 1, this.gameName, this.gameRating, this.conceptScore, this.artScore, this.interest, this.partnerInterest, this.complexity);
+    let newGame = new Game(this.bggService, this.games.length + 1, this.gameName, this.gameRating, this.conceptScore, this.artScore, this.interest, this.partnerInterest, this.complexity, this.price);
 
     newGame.finalizeGame().then((finalizedGame)=> {
       console.log("Unweighted: " + newGame.calculateUnweightedScore());
@@ -115,7 +117,6 @@ export class AppComponent implements OnInit {
       console.log("ratign:" + newGame.bggGeekRating);    
       this.games = this.gameService.addGame(finalizedGame)
     });
-/*    this.games = this.gameService.addGame(newGame);*/
 
   }
 	

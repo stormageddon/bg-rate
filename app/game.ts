@@ -1,18 +1,18 @@
 import { BggService } from './bgg.service';
 
 export class Game {
-  constructor(private bggService: BggService, _id: number, _name: string, _rating: number, _concept: number, _art: number, _interest: number, _partnerInterest: number, _complexity: number) {
+  constructor(private bggService: BggService, _id: number, _name: string, _rating: number, _concept: number, _art: number, _interest: number, _partnerInterest: number, _complexity: number, _price: number) {
 
     /**
      * These need to be fetched somehow.
      *
     * this.bggGeekRating = 6.55;
     * this.bggAverageRating = 6.85;
-    * 
+    * this.price = 29.07;
     * this.complexity = 3.72;
     */
 
-    this.price = 29.07;
+    
 
     this.id = _id;
     this.name = _name;
@@ -21,6 +21,7 @@ export class Game {
     this.art = +_art;
     this.interest = +_interest;
     this.partnerInterest = +_partnerInterest;
+    this.price = +_price;
     this.PRtg = this.price * .1;
     this.PInv = (10 - this.PRtg) + 1;
     this.complexity = +_complexity;
@@ -54,14 +55,20 @@ export class Game {
   CRaw: number;
   PRtg: number;
   PInv: number;
+  description: string;
 
+  /**
+   * Fetch game data from external sources
+   */
   finalizeGame(): Promise<Game> {
     let self = this;
     return new Promise( function(resolve, reject) {
 
       self.bggService.getBoardGame(self.name).then( (game) => {
+        console.log("BGG Item:", game);      						    
         self.bggGeekRating = +game.bggRating;
         self.bggAverageRating = +game.averageRating;
+	self.description = game.description;
 
         console.log("PInv: ", self.PInv);
         console.log("CInv: ", self.CInv);
@@ -71,7 +78,7 @@ export class Game {
         console.log("description", game.description);
 
         resolve(self);
-      });
+      }).catch( err => console.log("err:", err) );
     });
     
   }
