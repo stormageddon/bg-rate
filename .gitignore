@@ -58,3 +58,4 @@ internal/
 npm-debug.log
 typings/*
 app/**/*.js
+app/**/*.js.map
