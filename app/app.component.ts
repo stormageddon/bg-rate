@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe } from '@angular/core';
+import { Component, OnInit, Pipe, Input } from '@angular/core';
 
 import { Game } from './game';
 import { GameService } from './game.service';
@@ -12,6 +12,7 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
 	providers: [GameService, BggService],
 	template: `
 	  <h1>{{title}}</h1>
+	  <sort-selector (select)="selectChanged($event)"></sort-selector>
 	  <div class="new-game-form-container">
 	    <p>New game:</p>
 	    <input type="text" [(ngModel)]="gameName" placeholder="Name" />
@@ -24,6 +25,7 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
     	    <input type="text" [(ngModel)]="price" placeholder="Price ($USD)" />
 	    <button (click)="addGame()">Add Game</button>
 	  </div>
+	  <p> Selected: {{select}}</p>
 	  <div class='float-left'>
   	    <h2>Game List</h2>
 	    <ul class="games">
@@ -107,6 +109,8 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
 })
 
 export class AppComponent implements OnInit {
+  @Input() select;
+    
   constructor(private gameService: GameService, private bggService: BggService) { }
   title = 'Board Game Rater';
   games: Game[];
@@ -166,7 +170,16 @@ export class AppComponent implements OnInit {
   }
 
   getBadgeValue(game): string {
-    return game[this.sortParameter];		   
+    return game[this.select];		   
+  }
+
+  selectChanged($event): void {
+    this.select = $event;
+    console.log('event:', $event);
+    if (this.games === null || this.games === undefined) {
+      return;
+    }
+    this.games.sort(function(a,b) { return (a[$event] < b[$event]) ? 1 : ((b[$event] < a[$event]) ? -1 : 0); });    
   }
 
 }
