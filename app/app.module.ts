@@ -5,12 +5,15 @@ import { HttpModule }		from '@angular/http';
 
 import { AppComponent } 	from './app.component';
 import { GameDetailComponent }  from './game-detail.component';
+import { GameService } from './game.service';
+import { CloudmineService } from './cloudmine.service';
 import { SortSelector } from './sort-selector';
 
 
 @NgModule({
-	imports: [ BrowserModule, FormsModule, HttpModule ],
-	declarations: [ AppComponent, GameDetailComponent, SortSelector ],
-	bootstrap: [ AppComponent ]
+    imports: [ BrowserModule, FormsModule, HttpModule ],
+    declarations: [ AppComponent, GameDetailComponent, SortSelector ],
+    providers: [ GameService, CloudmineService ],
+    bootstrap: [ AppComponent]
 })
 export class AppModule { }

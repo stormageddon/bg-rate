@@ -1,4 +1,5 @@
 import { BggService } from './bgg.service';
+import { CloudmineService } from './cloudmine.service';
 
 export class Game {
   constructor(private bggService: BggService, _id: number, _name: string, _rating: number, _concept: number, _art: number, _interest: number, _partnerInterest: number, _complexity: number, _price: number) {
@@ -65,7 +66,8 @@ export class Game {
   finalizeGame(): Promise<Game> {
     let self = this;
 
-    return self.bggService.getGameIDFromName(self.name).then( (gameID) => {
+      return self.bggService.getGameIDFromName(self.name).then( (gameID) => {
+	  console.log("Got id from name");
       self.gameID = gameID;
       return new Promise( function(resolve, reject) {
 

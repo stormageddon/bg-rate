@@ -10,16 +10,18 @@ let webService = new cloudmine.WebService({appid: CM_APP_ID, apikey: CM_API_KEY}
 @Injectable()
 export class CloudmineService {
     
-    constructor(private http: Http) { }
+    constructor() { }
     
     runSnippet(snippetName: string, params: any, opts?: any): Promise<number> {
 	/*return Promise.resolve(10);*/
 	return new Promise( function( resolve, reject ) {
-	    webService.run(snippetName, params, opts).on('result', function( result ) {
+	    webService.run(snippetName, params, opts).on('result', ( result )=> {
+		console.log("Success!", result);
 		resolve(result.items.item[0].$.id);
 	    }).on('error', function( err ) {
 		reject(err);
 	    });
+
 	});
     }
 
@@ -28,8 +30,18 @@ export class CloudmineService {
 	    opts = {};
 	}
 	return new Promise( function( resolve, reject ) {
-	    webService.update(id, data, opts).on('result', function( result ) {
+	    webService.update(id, data, opts).on('success', function( result ) {
 		resolve(result);
+	    }).on('error', function( err ) {
+		reject(err);
+	    });
+	});
+    }
+
+    remove(id: number, opts?: any): Promise<boolean> {
+	return new Promise( function( resolve, reject ) {
+	    webService.destroy(id, opts).on('success', function( result ) {
+		resolve(true);
 	    }).on('error', function( err ) {
 		reject(err);
 	    });

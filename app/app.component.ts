@@ -7,7 +7,7 @@ import { CloudmineService } from './cloudmine.service';
 
 @Component({
 	selector: 'my-app',
-    providers: [GameService, BggService, CloudmineService],
+    providers: [BggService],
 	template: `
 	  <h1>{{title}}</h1>
 	  <div class="new-game-form-container">
@@ -95,7 +95,6 @@ import { CloudmineService } from './cloudmine.service';
     float: left;
   }
   .float-right {
-    background: #CFD8DC;
     margin-left: -10px;
     padding: 16px;
     display: inline-block;
@@ -109,7 +108,7 @@ import { CloudmineService } from './cloudmine.service';
 export class AppComponent implements OnInit {
   @Input() select;
     
-  constructor(private gameService: GameService, private bggService: BggService, private cloudmineService: CloudmineService) { }
+    constructor(private gameService: GameService, private bggService: BggService, private cloudmineService: CloudmineService) { }
   title = 'Board Game Rater';
   games: Game[];
   selectedGame: Game;
@@ -121,7 +120,7 @@ export class AppComponent implements OnInit {
   partnerInterest: number;
   complexity: number;
   price: number;
-  sortParameter: string = 'weightedValue';
+    sortParameter: string = 'weightedValue';
 
   ngOnInit(): void {
     this.getGames();
