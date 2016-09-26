@@ -6,7 +6,7 @@ import { Game } from './game';
     selector: 'my-game-detail',
     providers: [],
     template: `
-  	    <div [hidden]="game === null" class="game-detail-container">
+  	    <div [hidden]="!game" class="game-detail-container">
               <p> My Game Detail </p>
   	      <h2> {{game?.name}} details</h2>
 	      <img src="{{game?.thumbnail}}" width="50" height="50" alt="{{game?.name}} thumbnail"/>

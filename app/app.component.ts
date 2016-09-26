@@ -135,7 +135,6 @@ export class AppComponent implements OnInit {
     this.gameService.getGames().then( (games)=> {
       console.log("FETCHED GAMES:", games);
       this.games = games;
-      this.onSelect(this.games[0]);
     });
   }
 
