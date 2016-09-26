@@ -11,7 +11,7 @@ import { Game } from './game';
   	      <h2> {{game?.name}} details</h2>
 	      <img src="{{game?.thumbnail}}" width="50" height="50" alt="{{game?.name}} thumbnail"/>
 	      <p> Weighted value: {{game?.weightedValue}} </p>
-	      <p> Unweighted valud: {{game?.unweightedValue}} </p>
+	      <p> Unweighted value: {{game?.unweightedValue}} </p>
 	      <p> BGG Geek Rating: {{game?.bggGeekRating}} </p>
 	      <p> BGG Average Rating: {{game?.bggAverageRating}} </p>
 	      <h3> Description </h3>

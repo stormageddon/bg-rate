@@ -13,7 +13,6 @@ import { CloudmineService } from './cloudmine.service';
 	  <div class="new-game-form-container">
 	    <p>New game:</p>
 	    <input type="text" [(ngModel)]="gameName" placeholder="Name" />
-	    <input type="text" [(ngModel)]="gameRating" placeholder="Rating" />
 	    <input type="text" [(ngModel)]="conceptScore" placeholder="Concept" />
 	    <input type="text" [(ngModel)]="artScore" placeholder="Art" />
 	    <input type="text" [(ngModel)]="interest" placeholder="Interest" />
@@ -113,7 +112,6 @@ export class AppComponent implements OnInit {
   games: Game[];
   selectedGame: Game;
   gameName: string;
-  gameRating: number;
   conceptScore: number;
   artScore: number;
   interest: number;
@@ -139,7 +137,7 @@ export class AppComponent implements OnInit {
   }
 
   addGame(): void {
-      let newGame = new Game(this.bggService, this.games.length + 1, this.gameName, this.gameRating, this.conceptScore, this.artScore, this.interest, this.partnerInterest, this.complexity * 2, this.price);
+      let newGame = new Game(this.bggService, this.games.length + 1, this.gameName, this.conceptScore, this.artScore, this.interest, this.partnerInterest, this.complexity * 2, this.price);
 
     newGame.finalizeGame().then((finalizedGame)=> {
 	console.log("Unweighted: " + newGame.calculateUnweightedScore());
@@ -154,7 +152,6 @@ export class AppComponent implements OnInit {
 
   clearInputs(): void {
     this.gameName = null;
-    this.gameRating = null;
     this.conceptScore = null;
     this.artScore = null;
     this.interest = null;
