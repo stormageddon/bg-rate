@@ -3,16 +3,13 @@ import { Component, OnInit, Pipe, Input } from '@angular/core';
 import { Game } from './game';
 import { GameService } from './game.service';
 import { BggService } from './bgg.service';
-
-declare var cloudmine: any;
-let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8716', apikey: 'b776889b290a4e2ca85b97ba7c070a56'})
+import { CloudmineService } from './cloudmine.service';
 
 @Component({
 	selector: 'my-app',
-	providers: [GameService, BggService],
+    providers: [GameService, BggService, CloudmineService],
 	template: `
 	  <h1>{{title}}</h1>
-	  <sort-selector (select)="selectChanged($event)"></sort-selector>
 	  <div class="new-game-form-container">
 	    <p>New game:</p>
 	    <input type="text" [(ngModel)]="gameName" placeholder="Name" />
@@ -28,6 +25,7 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
 	  <p> Selected: {{select}}</p>
 	  <div class='float-left'>
   	    <h2>Game List</h2>
+            <sort-selector (select)="selectChanged($event)"></sort-selector>
 	    <ul class="games">
 	      <li *ngFor="let game of games" (click)="onSelect(game)" [class.selected]="game === selectedGame">
 	        <span class="badge">{{getBadgeValue(game)}}</span>
@@ -111,7 +109,7 @@ let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8
 export class AppComponent implements OnInit {
   @Input() select;
     
-  constructor(private gameService: GameService, private bggService: BggService) { }
+  constructor(private gameService: GameService, private bggService: BggService, private cloudmineService: CloudmineService) { }
   title = 'Board Game Rater';
   games: Game[];
   selectedGame: Game;
@@ -123,12 +121,10 @@ export class AppComponent implements OnInit {
   partnerInterest: number;
   complexity: number;
   price: number;
-  webService: any;
   sortParameter: string = 'weightedValue';
 
   ngOnInit(): void {
     this.getGames();
-    console.log("CloudMine?", webService);
   }
 
   onSelect(game: Game): void {
@@ -145,14 +141,14 @@ export class AppComponent implements OnInit {
   }
 
   addGame(): void {
-    let newGame = new Game(this.bggService, this.games.length + 1, this.gameName, this.gameRating, this.conceptScore, this.artScore, this.interest, this.partnerInterest, this.complexity, this.price);
+      let newGame = new Game(this.bggService, this.games.length + 1, this.gameName, this.gameRating, this.conceptScore, this.artScore, this.interest, this.partnerInterest, this.complexity * 2, this.price);
 
     newGame.finalizeGame().then((finalizedGame)=> {
-      console.log("Unweighted: " + newGame.calculateUnweightedScore());
-      console.log("Weighted: " + newGame.calculateWeightedScore());
-      console.log("ratign:" + newGame.bggGeekRating);    
-      this.games = this.gameService.addGame(finalizedGame)
-      webService.update(finalizedGame.id, finalizedGame.getSafeJSON());
+	console.log("Unweighted: " + newGame.calculateUnweightedScore());
+	console.log("Weighted: " + newGame.calculateWeightedScore());
+	console.log("rating:" + newGame.bggGeekRating);    
+	this.games = this.gameService.addGame(finalizedGame);
+	this.cloudmineService.update(finalizedGame.id, finalizedGame.getSafeJSON());
     });
     
     this.clearInputs();

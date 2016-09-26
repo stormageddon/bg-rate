@@ -5,37 +5,29 @@ import 'rxjs/add/operator/toPromise';
 
 import { BggItem } from './bgg-item';
 import { GAME_IDS } from './mock-game-ids';
+import { CloudmineService } from './cloudmine.service';
 
 const BGG_API_URL = 'https://bgg-json.azurewebsites.net/thing/';
 const BGG_QUERY_URL = 'http://www.boardgamegeek.com/xmlapi2/search?query=';
+const CM_BGG_SNIPPET_NAME = 'transform_xml';
 
-
+/* declare var cloudmine: any; */
+/* let webService = new cloudmine.WebService({appid: , apikey: }); */
 
 @Injectable()
 export class BggService {
 
-  constructor(private http: Http) { }
+    constructor(private http: Http, private cloudmineService: CloudmineService) { }
 
 
   /** Not currently operational due to CORS issue **/
   getGameIDFromName(gameName): Promise<number> {
-    let gameId = +GAME_IDS[gameName.toLowerCase()];
-    console.log("Game IDS:", GAME_IDS);
-    console.log("Game id:", gameId);
-    return Promise.resolve(gameId);
+      let params = {
+      	name: encodeURIComponent(gameName),
+	exact: 1
+      }
 
-/*    let headers = new Headers();
-    headers.append('Accept', 'application/xml');
-
-    return this.http.get(BGG_QUERY_URL + gameName, {
-      headers: headers
-    })
-    .toPromise()
-    .then( (response) => {
-      console.log('response xml:', response)
-      return Promise.resolve(1);
-    });*/
-    
+      return this.cloudmineService.runSnippet(CM_BGG_SNIPPET_NAME, params, {});
   }
 
   getBoardGame(gameID): Promise<BggItem> {
@@ -51,12 +43,6 @@ export class BggService {
 	     return Promise.resolve(item);
 	   })
 	   .catch( err => console.log("Error", err) );
-
-
-
-/*    let mockBggItem = { "gameId": 143986, "name": "CV", "description": "CV the game", "bggRating": 6.55093, "averageRating": 6.84941 };
-    return Promise.resolve(mockBggItem);*/
-
 
   }
 }
