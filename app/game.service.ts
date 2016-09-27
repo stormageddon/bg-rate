@@ -17,6 +17,7 @@ export class GameService {
     }
     
   getGames(): Promise<Game[]> {
+    this.gameList = [];
     let self = this;
     return new Promise(function(resolve, reject) {
       let theSelf = self;            
