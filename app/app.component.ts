@@ -10,17 +10,18 @@ import { CloudmineService } from './cloudmine.service';
     providers: [BggService],
 	template: `
 	  <h1>{{title}}</h1>
-	  <div class="new-game-form-container">
+	  <form class="new-game-form-container" (submit)=addGame()>
 	    <p>New game:</p>
-	    <input type="text" [(ngModel)]="gameName" placeholder="Name" />
-	    <input type="text" [(ngModel)]="conceptScore" placeholder="Concept" />
-	    <input type="text" [(ngModel)]="artScore" placeholder="Art" />
-	    <input type="text" [(ngModel)]="interest" placeholder="Interest" />
-	    <input type="text" [(ngModel)]="partnerInterest" placeholder="Partner Interest" />
-	    <input type="text" [(ngModel)]="complexity" placeholder="BGG Complexity" />
-    	    <input type="text" [(ngModel)]="price" placeholder="Price ($USD)" />
-	    <button (click)="addGame()">Add Game</button>
-	  </div>
+	    <input type="text" [(ngModel)]="gameName" name="name" placeholder="Name" />
+            <input type="text" [(ngModel)]="bggId" name="bggId" placeholder="BGG Id (optional)" />
+	    <input type="text" [(ngModel)]="conceptScore" name="conceptScore" placeholder="Concept" />
+	    <input type="text" [(ngModel)]="artScore" name="artScore" placeholder="Art" />
+	    <input type="text" [(ngModel)]="interest" name="interest" placeholder="Interest" />
+	    <input type="text" [(ngModel)]="partnerInterest" name="partnerInterest" placeholder="Partner Interest" />
+	    <input type="text" [(ngModel)]="complexity" name="complexity" placeholder="BGG Complexity" />
+    	    <input type="text" [(ngModel)]="price" name="price" placeholder="Price ($USD)" />
+	    <button>Add Game</button>
+	  </form>
 	  <p> Selected: {{select}}</p>
 	  <div class='float-left'>
   	    <h2>Game List</h2>
@@ -108,16 +109,17 @@ export class AppComponent implements OnInit {
   @Input() select;
     
     constructor(private gameService: GameService, private bggService: BggService, private cloudmineService: CloudmineService) { }
-  title = 'Board Game Rater';
-  games: Game[];
-  selectedGame: Game;
-  gameName: string;
-  conceptScore: number;
-  artScore: number;
-  interest: number;
-  partnerInterest: number;
-  complexity: number;
-  price: number;
+    title = 'Board Game Rater';
+    games: Game[];
+    selectedGame: Game;
+    gameName: string;
+    bggId: number;
+    conceptScore: number;
+    artScore: number;
+    interest: number;
+    partnerInterest: number;
+    complexity: number;
+    price: number;
     sortParameter: string = 'weightedValue';
 
   ngOnInit(): void {
@@ -138,11 +140,15 @@ export class AppComponent implements OnInit {
 
   addGame(): void {
       let newGame = new Game(this.bggService, this.games.length + 1, this.gameName, this.conceptScore, this.artScore, this.interest, this.partnerInterest, this.complexity * 2, this.price);
+      console.log('bgg id:', this.bggId);
+      if ( this.bggId != null ) {
+	  newGame.gameID = this.bggId;
+      }
 
     newGame.finalizeGame().then((finalizedGame)=> {
 	console.log("Unweighted: " + newGame.calculateUnweightedScore());
 	console.log("Weighted: " + newGame.calculateWeightedScore());
-	console.log("rating:" + newGame.bggGeekRating);    
+	console.log("rating:" + newGame.bggGeekRating);
 	this.games = this.gameService.addGame(finalizedGame);
 	this.cloudmineService.update(finalizedGame.id, finalizedGame.getSafeJSON());
     });
@@ -151,13 +157,14 @@ export class AppComponent implements OnInit {
   }
 
   clearInputs(): void {
-    this.gameName = null;
-    this.conceptScore = null;
-    this.artScore = null;
-    this.interest = null;
-    this.partnerInterest = null;
-    this.complexity = null;
-    this.price = null;
+      this.gameName = null;
+      this.bggId = null;
+      this.conceptScore = null;
+      this.artScore = null;
+      this.interest = null;
+      this.partnerInterest = null;
+      this.complexity = null;
+      this.price = null;
   }
 
   getBadgeValue(game): string {

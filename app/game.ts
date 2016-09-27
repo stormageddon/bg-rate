@@ -20,7 +20,7 @@ export class Game {
   id: number;
   name: string;
 
-  /* Properties from spread sheet */
+    /* Properties from spread sheet */
   price: number;
   rawCost: number;
   unweightedValue: number;
@@ -51,38 +51,45 @@ export class Game {
    * Fetch game data from external sources
    */
   finalizeGame(): Promise<Game> {
-    let self = this;
+      if (!this.gameID) {
+	  let self = this;
+	  console.log("Game id?", self.gameID);	  
+	  console.log("Find an id");
+	  return self.bggService.getGameIDFromName(self.name).then( (gameID) => {
+	      console.log("Got id from name", gameID);
+	      self.gameID = gameID;
 
-      return self.bggService.getGameIDFromName(self.name).then( (gameID) => {
-	  console.log("Got id from name");
-      self.gameID = gameID;
-      return new Promise( function(resolve, reject) {
-
-        self.bggService.getBoardGame(self.gameID).then( (game) => {
-          console.log("BGG Item:", game);      						    
-          self.bggGeekRating = +game.bggRating;
-          self.bggAverageRating = +game.averageRating;
-	  self.description = game.description;
-	  self.thumbnail = game.thumbnail;
-	  self.minPlayers = game.minPlayers;
-	  self.maxPlayers = game.maxPlayers;
-	  let totalHours = Math.floor(game.playTime / 60);
-	  let totalMinutes = game.playTime % 60;
-	  self.hours = parseInt(+totalHours + '.' + +totalMinutes);
-
-          console.log("PInv: ", self.PInv);
-          console.log("CInv: ", self.CInv);
-
-          console.log("bggGeekRating", self.bggGeekRating);
-          console.log("avgGeekRating", self.bggAverageRating);
-          console.log("description", game.description);
-
-          resolve(self);
-        }).catch( err => console.log("err:", err) );
-      });
-    });
-    
+	      return this.getGameFromID(gameID)
+	  }).catch( (err)=> {
+	      console.log("Error getting ID", err);
+	  });
+      }
+      else {
+	  return this.getGameFromID(this.gameID);
+      }
   }
+
+    getGameFromID(bggID): Promise<Game> {
+	let self = this;
+	return new Promise( function(resolve, reject) {
+
+            self.bggService.getBoardGame(bggID).then( (game) => {
+		console.log("BGG Item:", game);
+		self.bggGeekRating = +game.bggRating;
+		self.bggAverageRating = +game.averageRating;
+		self.description = game.description;
+		self.thumbnail = game.thumbnail;
+		self.minPlayers = game.minPlayers;
+		self.maxPlayers = game.maxPlayers;
+		let totalHours = Math.floor(game.playTime / 60);
+		let totalMinutes = game.playTime % 60;
+		self.hours = parseInt(+totalHours + '.' + +totalMinutes);
+
+		resolve(self);
+            }).catch( err => console.log("err:", err) );
+	});
+    }
+    
 
   /**
    * Unweighted value is found by:
