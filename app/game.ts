@@ -2,9 +2,8 @@ import { BggService } from './bgg.service';
 import { CloudmineService } from './cloudmine.service';
 
 export class Game {
-  constructor(private bggService: BggService, _id: number, _name: string, _concept: number, _art: number, _interest: number, _partnerInterest: number, _complexity: number, _price: number) {
+  constructor(private bggService: BggService, _name: string, _concept: number, _art: number, _interest: number, _partnerInterest: number, _complexity: number, _price: number) {
 
-    this.id = _id;
     this.name = _name;
     this.concept = +_concept;
     this.art = +_art;

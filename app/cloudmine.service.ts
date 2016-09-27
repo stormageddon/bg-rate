@@ -11,10 +11,37 @@ let webService = new cloudmine.WebService({appid: CM_APP_ID, apikey: CM_API_KEY}
 export class CloudmineService {
     
     constructor() { }
+
+    login(username: string, password: string): Promise<string> {
+	return new Promise( function( resolve, reject ) {
+	    webService.login({username: username, password: password}).on('success', ( result )=> {
+		console.log("Logged in:", result);
+		/** set session token on success **/
+		webService.options.session_token = result.session_token;
+		resolve('success');
+	    }).on('error', ( err )=> {
+		console.log("Failed to login:", err);
+		reject(err);
+	    });
+	});
+		
+    }
+
+    logout(): Promise<any> {
+	return new Promise( function( resolve, reject ) {
+	    webService.logout().on('success', ( result )=> {
+		resolve(result);
+	    }).on('error', ( err )=> {
+		reject(err);
+	    });
+	});
+    }
+		  
     
     runSnippet(snippetName: string, params: any, opts?: any): Promise<number> {
 	/*return Promise.resolve(10);*/
 	return new Promise( function( resolve, reject ) {
+	    
 	    webService.run(snippetName, params, opts).on('result', ( result )=> {
 		console.log("Success!", result);
 		resolve(result.items.item[0].$.id);
@@ -47,6 +74,17 @@ export class CloudmineService {
 	    });
 	});
     }
+
+    get(key?: string): Promise<any> {
+	return new Promise( function( resolve, reject ) {
+	    webService.get(key).on('success', function( result ) {
+		resolve(result);
+	    }).on('error', function( err ) {
+		reject(err);
+	    });
+	});
+    }
+
 }
 
 

@@ -5,7 +5,7 @@ import { GAMES } from './mock-games';
 import { CloudmineService } from './cloudmine.service';
 
 declare var cloudmine: any;
-let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8716', apikey: 'b776889b290a4e2ca85b97ba7c070a56'});
+//let webService = new cloudmine.WebService({appid: '9f16996a04afcd4da039daa5a51d8716', apikey: 'b776889b290a4e2ca85b97ba7c070a56'});
 
 @Injectable()
 export class GameService {
@@ -20,10 +20,10 @@ export class GameService {
     let self = this;
     return new Promise(function(resolve, reject) {
       let theSelf = self;            
-      webService.get().on('success', function(response) {
+      self.cloudmineService.get().then( function(response) {
         let innerSelf = theSelf;
         console.log('response!', response);
-/*	self.gameList = []; */
+
 	Object.keys(response).forEach( function(key, value) {
 	  console.log("KEY:", key);
 	  console.log("value:", innerSelf.gameList);	  
@@ -31,7 +31,7 @@ export class GameService {
         })
 	innerSelf.gameList.sort(function(a,b) { return (a.weightedValue < b.weightedValue) ? 1 : ((b.weightedValue < a.weightedValue) ? -1 : 0); });
         resolve(innerSelf.gameList);
-      }).on('error', function(err) {
+      }).catch( function(err) {
         reject(err)
       });
     });
