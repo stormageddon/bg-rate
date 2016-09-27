@@ -2,7 +2,7 @@
   "name": "bg-rater",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack",
+    "build": "tsc && webpack",
     "start-webpack": "webpack-dev-server",
     "start": "tsc && npm run lite",
     "lite": "lite-server",

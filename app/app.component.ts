@@ -146,7 +146,8 @@ export class AppComponent implements OnInit {
 	newGame.calculateUnweightedScore();
 	newGame.calculateWeightedScore();
 	newGame.calculateCostIndependentUnweightedScore();
-	newGame.calculateCostDependentUnweightedScore();	
+	newGame.calculateCostIndependentWeightedScore();
+	newGame.calculateCostDependentWeightedScore();	
 	
 	this.games = this.gameService.addGame(finalizedGame);
 	this.cloudmineService.update(finalizedGame.id, finalizedGame.getSafeJSON());
