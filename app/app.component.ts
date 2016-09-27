@@ -10,7 +10,7 @@ import { CloudmineService } from './cloudmine.service';
     providers: [BggService],
 	template: `
 	  <h1>{{title}}</h1>
-          <a (click)="logout()" [hidden]="!loggedIn">logout</a>
+          <a href="#" (click)="logout()" [hidden]="!loggedIn">logout</a>
           <div [hidden]="loggedIn">
             <p>You must login to add games!</p>
             <form (submit)=login()>
