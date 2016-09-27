@@ -7,21 +7,38 @@ import { Game } from './game';
     providers: [],
     template: `
   	    <div [hidden]="!game" class="game-detail-container">
-              <p> My Game Detail </p>
-  	      <h2> {{game?.name}} details</h2>
-	      <img src="{{game?.thumbnail}}" width="50" height="50" alt="{{game?.name}} thumbnail"/>
-	      <p> Weighted value: {{game?.weightedValue}} </p>
-	      <p> Unweighted value: {{game?.unweightedValue}} </p>
-	      <p> BGG Geek Rating: {{game?.bggGeekRating}} </p>
-	      <p> BGG Average Rating: {{game?.bggAverageRating}} </p>
-	      <h3> Description </h3>
-	      <p [innerHTML]="game?.description"></p>
+  	      <h2 class="inline-block"> {{game?.name}} details</h2>
+	      <img src="{{game?.thumbnail}}" alt="{{game?.name}} thumbnail" class="float-right"/>
+              <div class="main-game-detail-stats">
+	        <p> Weighted value: {{game?.weightedValue}} </p>
+  	        <p> Unweighted value: {{game?.unweightedValue}} </p>
+	        <p> BGG Geek Rating: {{game?.bggGeekRating}} </p>
+	        <p> BGG Average Rating: {{game?.bggAverageRating}} </p>
+              </div>
+              <h3> Description </h3>
+              <p [innerHTML]="game?.description" class="game-description"></p>
               <button (click)="remove()">Delete</button>
 	    </div>
            `,
     styles: [`
       .game-detail-container {
         background: #CFD8DC;
+        margin-left: -25px;
+        padding: 0 0 32px 32px;
+      }
+      .inline-block {
+        display: inline-block;
+      }
+      .float-right {
+        padding: 32px;
+        display: inline-block;
+        width: inherit;
+        float: right;
+      }
+      .main-game-detail-stats {
+      }
+      .game-description {
+        padding-right: 32px;
       }`]
 })
 

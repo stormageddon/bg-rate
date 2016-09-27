@@ -38,7 +38,7 @@ export class BggService {
 	     console.log("Response:", response.json().body);
 	     let body = response.json();
 	     let item = new BggItem(body.gameId, body.name, body.description, body.bggRating, body.averageRating, body.minPlayers, body.maxPlayers, body.playTime);
-	     item.thumbnail = body.thumbnail;
+	     item.thumbnail = body.image;
 	     
 	     return Promise.resolve(item);
 	   })

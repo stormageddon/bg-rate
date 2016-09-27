@@ -22,7 +22,6 @@ import { CloudmineService } from './cloudmine.service';
     	    <input type="text" [(ngModel)]="price" name="price" placeholder="Price ($USD)" />
 	    <button>Add Game</button>
 	  </form>
-	  <p> Selected: {{select}}</p>
 	  <div class='float-left'>
   	    <h2>Game List</h2>
             <sort-selector (select)="selectChanged($event)"></sort-selector>
@@ -30,7 +29,6 @@ import { CloudmineService } from './cloudmine.service';
 	      <li *ngFor="let game of games" (click)="onSelect(game)" [class.selected]="game === selectedGame">
 	        <span class="badge">{{getBadgeValue(game)}}</span>
 	        <span>{{game.name}}</span>
-	        <span class="rating">{{game.weightedValue}}</span>
 	      </li>
 	    </ul>
 	  </div>
@@ -95,7 +93,6 @@ import { CloudmineService } from './cloudmine.service';
     float: left;
   }
   .float-right {
-    margin-left: -10px;
     padding: 16px;
     display: inline-block;
     width: inherit;

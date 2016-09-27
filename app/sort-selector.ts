@@ -12,10 +12,14 @@ import {Component, Output, EventEmitter} from "@angular/core";
     </div>`
 })
 export class SortSelector {
-  @Output() select = new EventEmitter();
-  sortOptions = ["id", "weightedValue"];
+    @Output() select = new EventEmitter();
+    sortOptions = [
+	'id',
+	'weightedValue',
+	'unweightedValue',
+    ];
 
-  ngOnInit() {
-    this.select.emit(this.sortOptions[0]);
-  }
+    ngOnInit() {
+	this.select.emit(this.sortOptions[0]);
+    }
 }
