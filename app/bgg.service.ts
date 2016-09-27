@@ -21,9 +21,9 @@ export class BggService {
 
 
   /** Not currently operational due to CORS issue **/
-  getGameIDFromName(gameName): Promise<number> {
+    getGameIDFromName(gameName): Promise<number> {
       let params = {
-      	name: encodeURIComponent(gameName),
+      	name: gameName,
 	exact: 1
       }
 
