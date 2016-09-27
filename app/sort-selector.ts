@@ -17,6 +17,8 @@ export class SortSelector {
 	'id',
 	'weightedValue',
 	'unweightedValue',
+	'costIndependentUnweightedValue',
+	'costDependentUnweightedValue'	
     ];
 
     ngOnInit() {

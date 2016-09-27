@@ -26,7 +26,9 @@ export class Game {
   unweightedValue: number;
   weightedValue: number;
   costIndependentWeightedValue: number;
-  costDependentWeightedValue: number;
+    costDependentWeightedValue: number;
+    costIndependentUnweightedValue: number;
+    costDependentUnweightedValue: number;
   onePlayerCostIndependent: number;
   onePlayerCostDependent: number;
   bggGeekRating: number;
@@ -112,6 +114,17 @@ export class Game {
     return this.weightedValue;
   }
 
+    calculateCostIndependentUnweightedScore(): number {
+	this.costIndependentUnweightedValue = +((this.bggGeekRating + this.bggAverageRating + this.concept + this.art + this.interest + this.partnerInterest + this.CInv) / 7).toFixed(2);
+
+	return this.costIndependentUnweightedValue;
+    }
+
+    calculateCostDependentUnweightedScore(): number {
+	this.costDependentUnweightedValue = +(((this.bggGeekRating * 0.04) + (this.bggAverageRating * 0.06) + (this.concept * 0.26) + (this.art * 0.13) + (this.interest * 0.18) + (this.partnerInterest * 0.08) + (this.CInv * 0.25)) / 7 ).toFixed(2);
+	return this.costDependentUnweightedValue;
+    }
+    
   getSafeJSON(): any {
     let safeObj = {
       name: this.name,
@@ -120,7 +133,9 @@ export class Game {
       unweightedValue: this.unweightedValue,
       weightedValue: this.weightedValue,
       costIndependentWeightedValue: this.costIndependentWeightedValue,
-      costDependentWeightedValue: this.costDependentWeightedValue,
+	costDependentWeightedValue: this.costDependentWeightedValue,
+	costIndependentUnweightedValue: this.costIndependentUnweightedValue,
+	costDependentUnweightedValue: this.costDependentUnweightedValue,
       onePlayerCostIndependent: this.onePlayerCostIndependent,
       onePlayerCostDependent: this.onePlayerCostDependent,
       bggGeekRating: this.bggGeekRating,

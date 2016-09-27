@@ -8,7 +8,7 @@ import { Game } from './game';
     template: `
   	    <div [hidden]="!game" class="game-detail-container">
   	      <h2 class="inline-block"> {{game?.name}} details</h2>
-	      <img src="{{game?.thumbnail}}" alt="{{game?.name}} thumbnail" class="float-right"/>
+	      <img src="{{game?.thumbnail}}" alt="{{game?.name}} thumbnail" class="float-right game-img"/>
               <div class="main-game-detail-stats">
 	        <p> Weighted value: {{game?.weightedValue}} </p>
   	        <p> Unweighted value: {{game?.unweightedValue}} </p>
@@ -39,6 +39,9 @@ import { Game } from './game';
       }
       .game-description {
         padding-right: 32px;
+      }
+      .game-img {
+        max-height: 200px;
       }`]
 })
 

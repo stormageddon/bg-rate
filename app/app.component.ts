@@ -24,7 +24,7 @@ import { CloudmineService } from './cloudmine.service';
 	  </form>
 	  <div class='float-left'>
   	    <h2>Game List</h2>
-            <sort-selector (select)="selectChanged($event)"></sort-selector>
+            <sort-selector (select)="selectChanged($event)" style="text-align: center;"></sort-selector>
 	    <ul class="games">
 	      <li *ngFor="let game of games" (click)="onSelect(game)" [class.selected]="game === selectedGame">
 	        <span class="badge">{{getBadgeValue(game)}}</span>
@@ -143,9 +143,11 @@ export class AppComponent implements OnInit {
       }
 
     newGame.finalizeGame().then((finalizedGame)=> {
-	console.log("Unweighted: " + newGame.calculateUnweightedScore());
-	console.log("Weighted: " + newGame.calculateWeightedScore());
-	console.log("rating:" + newGame.bggGeekRating);
+	newGame.calculateUnweightedScore();
+	newGame.calculateWeightedScore();
+	newGame.calculateCostIndependentUnweightedScore();
+	newGame.calculateCostDependentUnweightedScore();	
+	
 	this.games = this.gameService.addGame(finalizedGame);
 	this.cloudmineService.update(finalizedGame.id, finalizedGame.getSafeJSON());
     });
