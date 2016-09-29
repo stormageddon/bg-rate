@@ -4,6 +4,7 @@
   "scripts": {
     "build": "tsc && webpack",
     "start-webpack": "webpack-dev-server",
+    "start-dev": "npm run build && npm run start-webpack",
     "start": "tsc && npm run lite",
     "lite": "lite-server",
     "postinstall": "typings install",
