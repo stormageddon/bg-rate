@@ -1,4 +1,6 @@
-import { Component, OnInit, Pipe, Input } from '@angular/core';
+import { Component, OnInit, Pipe, Input, ViewChild } from '@angular/core';
+
+import { Ng2Bs3ModalModule, ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { Game } from './game';
 import { GameService } from './game.service';
@@ -40,6 +42,17 @@ import { UserService } from './user.service';
               <my-game-detail [game]="selectedGame"></my-game-detail>
 	    </div>
           </div>
+<modal #resultModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">{{modalTitle}}</h4>
+    </modal-header>
+    <modal-body>
+        {{modalBody}}
+    </modal-body>
+    <modal-footer [show-default-buttons]="false">
+      <button type="button" class="btn btn-primary" (click)="modal.close()">Ok</button>
+    </modal-footer>
+</modal>
 	`,
 	styles: [`
   .new-game-form-container {
@@ -109,6 +122,8 @@ import { UserService } from './user.service';
 export class AppComponent implements OnInit {
     @Input() select;
     @Input() createdUser;
+    @ViewChild('resultModal')
+    modal: ModalComponent;
     
     constructor(private gameService: GameService, private bggService: BggService, private cloudmineService: CloudmineService, private userService: UserService) { }
     title = 'Board Game Rater';
@@ -126,6 +141,11 @@ export class AppComponent implements OnInit {
     price: number;
     sortParameter: string = 'weightedValue';
     loggedIn: boolean = false;
+
+    /** Modal attributes **/
+    'show-close': boolean = true;
+    modalTitle: string;
+    modalBody: string;
 
     ngOnInit(): void {
 		  
@@ -151,18 +171,22 @@ export class AppComponent implements OnInit {
       }
 
       newGame.finalizeGame().then((finalizedGame)=> {
-	  newGame.id = newGame.gameID;
-  	newGame.calculateUnweightedScore();
-	newGame.calculateWeightedScore();
-	newGame.calculateCostIndependentUnweightedScore();
-	newGame.calculateCostIndependentWeightedScore();
-	newGame.calculateCostDependentWeightedScore();	
+	  console.log("Are we here too?");
+          newGame.id = newGame.gameID;
+  	  newGame.calculateUnweightedScore();
+	  newGame.calculateWeightedScore();
+	  newGame.calculateCostIndependentUnweightedScore();
+	  newGame.calculateCostIndependentWeightedScore();
+	  newGame.calculateCostDependentWeightedScore();	
 	
-	this.games = this.gameService.addGame(finalizedGame);
-	this.cloudmineService.update(newGame.gameID, finalizedGame.getSafeJSON());
-    });
-    
-    this.clearInputs();
+	  this.games = this.gameService.addGame(finalizedGame);
+	  this.cloudmineService.update(newGame.gameID, finalizedGame.getSafeJSON());
+	  this.clearInputs();	  
+      }).catch( (err)=> {
+	  this.modalTitle = "Unable to save game";
+	  this.modalBody = err.message;
+	  this.modal.open();
+      });
   }
 
   clearInputs(): void {

@@ -50,14 +50,20 @@ export class CloudmineService {
     }
     
     runSnippet(snippetName: string, params: any, opts?: any): Promise<number> {
+	console.log("How many times are we being called?");
 	/*return Promise.resolve(10);*/
 	return new Promise( function( resolve, reject ) {
 	    
 	    webService.run(snippetName, params, opts).on('result', ( result )=> {
 		console.log("Success!", result);
-		resolve(result.items.item[0].$.id);
+		if (!result.items || !result.items.item) {
+		    return reject(new Error('No game found with the name ' + params.name))
+		}
+		else {
+		    return resolve(result.items.item[0].$.id);
+		}
 	    }).on('error', function( err ) {
-		reject(err);
+		return reject(err);
 	    });
 
 	});

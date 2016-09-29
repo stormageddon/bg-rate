@@ -63,6 +63,7 @@ export class Game {
 	      return this.getGameFromID(gameID)
 	  }).catch( (err)=> {
 	      console.log("Error getting ID", err);
+	      return new Promise( (resolve, reject)=> { return reject(err); });
 	  });
       }
       else {
