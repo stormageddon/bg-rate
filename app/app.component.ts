@@ -4,6 +4,7 @@ import { Game } from './game';
 import { GameService } from './game.service';
 import { BggService } from './bgg.service';
 import { CloudmineService } from './cloudmine.service';
+import { UserService } from './user.service';
 
 @Component({
     selector: 'my-app',
@@ -108,7 +109,7 @@ import { CloudmineService } from './cloudmine.service';
 export class AppComponent implements OnInit {
   @Input() select;
     
-    constructor(private gameService: GameService, private bggService: BggService, private cloudmineService: CloudmineService) { }
+    constructor(private gameService: GameService, private bggService: BggService, private cloudmineService: CloudmineService, private userService: UserService) { }
     title = 'Board Game Rater';
     username: string;
     password: string;

@@ -4,7 +4,7 @@ import { UserService } from './user.service';
 
 @Component({
     selector: 'my-login',
-    providers: [UserService],
+    providers: [],
     template: `
         <p>You must login to add games!</p>
         <form (submit)=login()>
