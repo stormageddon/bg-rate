@@ -38,7 +38,7 @@ export class LoginComponent {
     registerUsername: string;
     registerPassword: string;
     confirmPassword: string;
-    registerValid: boolean = true;
+    registerInvalid: boolean = false;
     registerErrorMessage: string;
 
     constructor(private userService: UserService) { }
@@ -46,6 +46,7 @@ export class LoginComponent {
     login(): void {
 	this.userService.login(this.loginUsername, this.loginPassword).then( (result)=> {
 	    console.log("Result!", result);
+	    this.clearInputs();
 	    this.userLoggedIn.emit(result);
 	}).catch( (err)=> {
 	    console.log("Something went horribly wrong", err);
@@ -55,16 +56,29 @@ export class LoginComponent {
     register(): void {
 	if ( this.registerPassword !== this.confirmPassword ) {
 	    this.registerErrorMessage = 'Passwords must match';
-	    this.registerValid = false;
+	    this.registerInvalid = true;
 	    return;
 	}
 	
 	this.userService.register(this.registerUsername, this.registerPassword).then( (result)=> {
 	    console.log("Registered!", result);
+	    this.clearInputs();
 	    this.userLoggedIn.emit(result);
 	}).catch( (err)=> {
 	    console.log("Failed to register", err);
+	    this.registerInvalid = true;
+	    this.registerErrorMessage = err.message;
 	});
     }
+
+    clearInputs(): void {
+	this.loginUsername = null;
+	this.loginPassword = null;
+	this.registerUsername = null;
+	this.registerPassword = null;
+	this.confirmPassword = null;
+	this.registerInvalid = false;
+    }
+
 		  
 }

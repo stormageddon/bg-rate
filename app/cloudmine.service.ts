@@ -41,6 +41,8 @@ export class CloudmineService {
 	return new Promise( ( resolve, reject )=> {
 	    webService.createUser({username: username, password: password}).on('success', ( result )=> {
 		resolve(this.login(username, password))
+	    }).on('409', ( err )=> {
+		reject({statusCode: 409, message: 'An account with that name already exists'});
 	    }).on('error', ( err )=> {
 		reject(err);
 	    });

@@ -201,11 +201,7 @@ export class AppComponent implements OnInit {
     }
     
     logout(): void {
-	this.cloudmineService.logout().then( ( result )=> {
-	    this.loggedIn = false;
-	}).catch( ( err )=> {
-	    console.log("failed to logout", err);
-	});
+	this.userService.logout();
     }
 
 }
