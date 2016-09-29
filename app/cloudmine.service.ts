@@ -37,6 +37,15 @@ export class CloudmineService {
 	});
     }
 		  
+    register(username: string, password: string): Promise<any> {
+	return new Promise( ( resolve, reject )=> {
+	    webService.createUser({username: username, password: password}).on('success', ( result )=> {
+		resolve(this.login(username, password))
+	    }).on('error', ( err )=> {
+		reject(err);
+	    });
+	});
+    }
     
     runSnippet(snippetName: string, params: any, opts?: any): Promise<number> {
 	/*return Promise.resolve(10);*/

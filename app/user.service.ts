@@ -20,4 +20,16 @@ export class UserService {
 	    });
 	});
     }
+
+    register(username, password): Promise<User> {
+	return new Promise( (resolve, reject)=> {
+	    this.cloudmineService.register(username, password).then( (result)=> {
+		let user = new User();
+		console.log("register result", result);
+		user.username = username;
+		this.currentUser = user;
+		resolve(user);
+	    });
+	});
+    }
 }
