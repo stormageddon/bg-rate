@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 import { UserService } from './user.service';
 
@@ -6,18 +6,21 @@ import { UserService } from './user.service';
     selector: 'my-login',
     providers: [],
     template: `
-        <p>You must login to add games!</p>
-        <form (submit)=login()>
+        <div [hidden]=userService.currentUser>
+          <p>You must login to add games!</p>
+          <form (submit)=login()>
             <input type="text" [(ngModel)]="username" name="username" placeholder="Username" />
             <input type="password" [(ngModel)]="password" name="password" placeholder="Password" />
             <button>Login</button>
-        </form>
+          </form>
+        </div>
 `,
     styles: []
 
 })
 
 export class LoginComponent {
+    @Output() userLoggedIn = new EventEmitter();
     username: string;
     password: string;
 
@@ -26,6 +29,7 @@ export class LoginComponent {
     login(): void {
 	this.userService.login(this.username, this.password).then( (result)=> {
 	    console.log("Result!", result);
+	    this.userLoggedIn.emit(result);
 	}).catch( (err)=> {
 	    console.log("Something went horribly wrong", err);
 	});

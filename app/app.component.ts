@@ -11,9 +11,9 @@ import { UserService } from './user.service';
     providers: [BggService],
     template: `
 	  <h1>{{title}}</h1>
-          <a href="#" (click)="logout()" [hidden]="!loggedIn">logout</a>
-          <my-login></my-login>
-          <div [hidden]="!loggedIn">
+          <a href="#" (click)="logout()" [hidden]="!userService.currentUser">logout</a>
+          <my-login (userLoggedIn)="getGames()"></my-login>
+          <div [hidden]="!userService.currentUser">
   	    <form class="new-game-form-container" (submit)=addGame()>
 	      <p>New game:</p>
 	      <input type="text" [(ngModel)]="gameName" name="name" placeholder="Name" />
@@ -107,7 +107,8 @@ import { UserService } from './user.service';
 })
 
 export class AppComponent implements OnInit {
-  @Input() select;
+    @Input() select;
+    @Input() createdUser;
     
     constructor(private gameService: GameService, private bggService: BggService, private cloudmineService: CloudmineService, private userService: UserService) { }
     title = 'Board Game Rater';
@@ -188,6 +189,7 @@ export class AppComponent implements OnInit {
     this.games.sort(function(a,b) { return (a[$event] < b[$event]) ? 1 : ((b[$event] < a[$event]) ? -1 : 0); });    
   }
 
+    
     login(): void {
 	/** sign in as user **/
 	this.cloudmineService.login(this.username, this.password).then( (result)=> {
