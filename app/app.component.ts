@@ -6,14 +6,12 @@ import { BggService } from './bgg.service';
 import { CloudmineService } from './cloudmine.service';
 
 @Component({
-	selector: 'my-app',
+    selector: 'my-app',
     providers: [BggService],
-	template: `
+    template: `
 	  <h1>{{title}}</h1>
           <a href="#" (click)="logout()" [hidden]="!loggedIn">logout</a>
-          <div [hidden]="loggedIn">
-            
-          </div>
+          <my-login></my-login>
           <div [hidden]="!loggedIn">
   	    <form class="new-game-form-container" (submit)=addGame()>
 	      <p>New game:</p>

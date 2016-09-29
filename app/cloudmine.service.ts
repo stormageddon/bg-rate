@@ -12,13 +12,13 @@ export class CloudmineService {
     
     constructor() { }
 
-    login(username: string, password: string): Promise<string> {
+    login(username: string, password: string): Promise<any> {
 	return new Promise( function( resolve, reject ) {
 	    webService.login({username: username, password: password}).on('success', ( result )=> {
 		console.log("Logged in:", result);
 		/** set session token on success **/
 		webService.options.session_token = result.session_token;
-		resolve('success');
+		resolve(result);
 	    }).on('error', ( err )=> {
 		console.log("Failed to login:", err);
 		reject(err);

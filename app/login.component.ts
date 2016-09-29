@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { LoginService } from './user.service';
+import { UserService } from './user.service';
 
 @Component({
     selector: 'my-login',
@@ -12,7 +12,7 @@ import { LoginService } from './user.service';
             <input type="password" [(ngModel)]="password" name="password" placeholder="Password" />
             <button>Login</button>
         </form>
-`
+`,
     styles: []
 
 })
@@ -20,4 +20,14 @@ import { LoginService } from './user.service';
 export class LoginComponent {
     username: string;
     password: string;
+
+    constructor(private userService: UserService) { }
+    
+    login(): void {
+	this.userService.login(this.username, this.password).then( (result)=> {
+	    console.log("Result!", result);
+	}).catch( (err)=> {
+	    console.log("Something went horribly wrong", err);
+	});
+    }
 }
