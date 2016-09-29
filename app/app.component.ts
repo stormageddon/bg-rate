@@ -12,12 +12,7 @@ import { CloudmineService } from './cloudmine.service';
 	  <h1>{{title}}</h1>
           <a href="#" (click)="logout()" [hidden]="!loggedIn">logout</a>
           <div [hidden]="loggedIn">
-            <p>You must login to add games!</p>
-            <form (submit)=login()>
-              <input type="text" [(ngModel)]="username" name="username" placeholder="Username" />
-              <input type="password" [(ngModel)]="password" name="password" placeholder="Password" />
-              <button>Login</button>
-            </form>
+            
           </div>
           <div [hidden]="!loggedIn">
   	    <form class="new-game-form-container" (submit)=addGame()>
