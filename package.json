@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc && webpack",
-    "start-webpack": "webpack-dev-server",
+    "start-webpack": "webpack-dev-server --port 5001 --host 0.0.0.0",
     "start-dev": "npm run build && npm run start-webpack",
     "start": "tsc && npm run lite",
     "lite": "lite-server",
