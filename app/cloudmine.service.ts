@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-const CM_APP_ID = '9f16996a04afcd4da039daa5a51d8716';
-const CM_API_KEY = 'b776889b290a4e2ca85b97ba7c070a56';
+//const CM_APP_ID = '9f16996a04afcd4da039daa5a51d8716';
+const CM_APP_ID = '946a140d7b0efa4c4cd931cf6b0b0866';
+//const CM_API_KEY = 'b776889b290a4e2ca85b97ba7c070a56';
+const CM_API_KEY = '72d63a623b3645e5a0548519988f88c0';
 
 declare var cloudmine: any;
 let webService = new cloudmine.WebService({appid: CM_APP_ID, apikey: CM_API_KEY});        
@@ -50,8 +52,6 @@ export class CloudmineService {
     }
     
     runSnippet(snippetName: string, params: any, opts?: any): Promise<number> {
-	console.log("How many times are we being called?");
-	/*return Promise.resolve(10);*/
 	return new Promise( function( resolve, reject ) {
 	    
 	    webService.run(snippetName, params, opts).on('result', ( result )=> {

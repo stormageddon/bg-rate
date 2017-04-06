@@ -12,8 +12,7 @@ import { UserService } from './user.service';
     selector: 'my-app',
     providers: [BggService],
     template: `
-	  <h1>{{title}}</h1>
-          <a href="#" (click)="logout()" [hidden]="!userService.currentUser">logout</a>
+          <my-header [hidden]="!userService.currentUser"></my-header>
           <my-login (userLoggedIn)="getGames()"></my-login>
           <div [hidden]="!userService.currentUser">
   	    <form class="new-game-form-container" (submit)=addGame()>
@@ -28,6 +27,22 @@ import { UserService } from './user.service';
     	      <input type="text" [(ngModel)]="price" name="price" placeholder="Price ($USD)" />
 	      <button>Add Game</button>
 	    </form>
+
+            <div class='inline-block'>
+              <ul>
+                <li *ngFor="let game of games">
+                  <span class="table-cell">{{getBadgeValue(game)}}</span>
+                  <span class="table-cell">{{game.name}}</span>
+                  <span class="table-cell">{{game.unweightedValue}}</span>
+                  <span class="table-cell">{{game.weightedValue}}</span>
+                  <span class="table-cell">{{game.costIndependentWeightedValue}}</span>
+                  <span class="table-cell">{{game.costDependentWeightedValue}}</span>
+                  <span class="table-cell">{{game.costDependentedUnweightedValue}}</span>
+                </li>
+              </ul>
+            </div>
+
+
 	    <div class='inline-block'>
   	      <h2>Game List</h2>
               <sort-selector (select)="selectChanged($event)" style="text-align: center;"></sort-selector>
@@ -55,6 +70,9 @@ import { UserService } from './user.service';
 </modal>
 	`,
 	styles: [`
+  .table-cell {
+    border: 1px solid black;
+  }
   .new-game-form-container {
     margin: 8px;
     text-align: center;
@@ -76,7 +94,7 @@ import { UserService } from './user.service';
     background-color: #EEE;
     margin: .5em;
     padding: .3em 0;
-    height: 1.6em;
+    height: 2.2em;
     border-radius: 4px;
   }
   .games li.selected:hover {
@@ -102,7 +120,7 @@ import { UserService } from './user.service';
     position: relative;
     left: -1px;
     top: -4px;
-    height: 1.8em;
+    height: 2.3em;
     margin-right: .8em;
     border-radius: 4px 0 0 4px;
   }
